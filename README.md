@@ -13,3 +13,6 @@ The code contains three java class: <br>
 3. MipsScanner.java
   > includes the DFA implementation of the lexical analyzer
 <br>
+
+**Note** <br>
+Make sure to change the file paths for the FileReader and FileWriter that can be seen on Main.java.

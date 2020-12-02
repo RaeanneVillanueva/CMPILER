@@ -1,36 +1,4 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-
-class Token {
-	enum TokenType {
-		GPR,
-		FPR,
-		KEYWORD,
-		ERROR
-	}
-	
-	public String identifyToken(int val) {
-		
-		if (val >= 3 && val <= 7) {
-			return TokenType.GPR.toString(); 
-		} else if (val >= 9 && val <= 13) {
-			return TokenType.FPR.toString();
-		} else if (val == 23 || val == 22) {
-			return TokenType.KEYWORD.toString();
-		} else if (val == 0){
-			return "";
-		}else {
-			return TokenType.ERROR.toString();
-		}
-	}
-}
-
-
-public class mipsScanner {
+public class MipsScanner {
 	
 	// start state
 	private static final int q0 = 0;
@@ -38,6 +6,8 @@ public class mipsScanner {
 	
 	// GPR
 	private static final int g1 = 2;
+	
+	// GPR Accepted States
 	private static final int g2 = 3;
 	private static final int g3 = 4;
 	private static final int g4 = 5;
@@ -46,6 +16,8 @@ public class mipsScanner {
 	
 	// FPR
 	private static final int f1 = 8;
+	
+	// FPR Accepted States
 	private static final int f2 = 9;
 	private static final int f3 = 10;
 	private static final int f4 = 11;
@@ -61,12 +33,15 @@ public class mipsScanner {
 	private static final int k6 = 19;
 	private static final int k7 = 20;
 	private static final int k8 = 21;
+	
+	// KEYWORD Accepted States
 	private static final int k9 = 22;
 	private static final int k10 = 23;
 	
+	// Error State
 	private static final int e = 24;
 	
-	private static int dfa (int s, char c) {
+	public int dfa (int s, char c) {
 		switch (s) {
 			case q0: switch(c) {
 				case 'R': return g1;
@@ -215,52 +190,5 @@ public class mipsScanner {
 			}
 			default: return e;
 		}
-	}
-	
-	
-	public static int state;
-	
-	public static void main (String[] args) throws IOException {
-		ArrayList<String[]> tokenLine = new ArrayList<>();
-		BufferedWriter bfw = null;
-		Token token = new Token();
-		
-		try {
-			
-			BufferedReader bfr = new BufferedReader(new FileReader("C:\\Users\\Raeanne\\Downloads\\input.txt"));
-			bfw = new BufferedWriter(new FileWriter("C:\\Users\\Raeanne\\Downloads\\output.txt"));
-			
-			String line;
-
-			while ((line = bfr.readLine()) != null) {
-				String[] tokens = line.replaceAll(", ", " ").split("\\s");
-				tokenLine.add(tokens);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		for(int i=0; i<tokenLine.size(); i++) {
-
-			int arrLength = tokenLine.get(i).length;
-			
-			for(int j=0; j<arrLength; j++) {
-				String word = tokenLine.get(i)[j];
-				
-				for(char letter: word.toCharArray()) {
-					state = dfa(state, letter);
-				}
-				
-				// identify the token type of the final state
-				String tokenType = token.identifyToken(state);
-				
-				// writes the output to text file and restart the state
-				bfw.write(tokenType + ((j == arrLength-1) ? "\n" : " "));
-				state = 0;
-			}
-		}
-		
-		bfw.close();
-	}
+	}	
 }

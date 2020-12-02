@@ -3,7 +3,7 @@
 
 The code contains three java class: <br>
 1. Main.java 
-  > includes the reading of the input file and the writing for the output file. This is where the application is going to **run**
+  > includes the reading of the input file and the writing for the output file. This is the **entry class file** of the application.
   <br>
   
 2. SyntaxToken.java
@@ -15,4 +15,4 @@ The code contains three java class: <br>
 <br>
 
 **Note** <br>
-Make sure to change the file paths for the FileReader and FileWriter that can be seen on Main.java.
+Make sure to change the file paths for the FileReader and FileWriter that can be seen on **Main.java**.
